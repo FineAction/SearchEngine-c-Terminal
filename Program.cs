@@ -1,55 +1,80 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 class Program
 {
+
     public static void Main()
     {
-        Console.WriteLine("WELCOME please enter PARAMETER.\npress enter and start.");
+        Console.WriteLine("Search Methods press any key to start.");
         Console.ReadKey();
         Console.Clear();
-        Parameter();
+        ParameterInput();
     }
-    public static string Parameter()
-    {
-        string? parameterInput = Console.ReadLine();
 
-        if (parameterInput == null)
+    // ParameterInput method setting Two VARIABLES ( sType = type of search, searchParameter = direct ; relative, combined together searchType )
+
+
+    public static string ParameterInput()
+    {
+        Console.WriteLine("Enter Search type // -DRL DIRECT URL //  // -SCH SEARCH //");
+
+        string? sType = Console.ReadLine();
+        string? searchParameter;
+        string? searchType = null;
+
+
+        if (sType == "-DRL")
         {
-            Console.WriteLine("input is null returning to Main method.");
-            Thread.Sleep(2000);
             Console.Clear();
-            Main();
+            Console.WriteLine("-DRL Selected Direct URL Search method");
+            searchParameter = Console.ReadLine();
+            searchType = searchParameter;
+            SearchMethod(searchType);
+        }
+        else if (sType == "-SCH")
+        {
+            Console.Clear();
+            Console.WriteLine("-SCH Selected Search method");
+            searchParameter = Console.ReadLine();
+            searchType = "https://www.google.co.uk/search?q=" + searchParameter;
+            SearchMethod(searchType);
         }
         else
         {
-            Console.WriteLine("Check 1.: Success! Parameter Built.");
-            Search(parameterInput);
+            Console.Clear();
+            Console.WriteLine("Unknown Command/ Mistyped"); ParameterInput();
         }
-        return parameterInput;
-    }
-    public static async Task Search(string parameterInput)
-    {
-        string pResult = parameterInput;
-        string url = "https://www.google.com/search?q=" + pResult;
+        return searchType!;
 
-        Console.WriteLine(url);
+    }
+
+    // SearchMethod takes in searchType formatted Previously by ParameterInput Method, to execute search by process within parameter.
+
+    public static void SearchMethod(string? searchType)
+    {
+        Console.WriteLine("Debug: from MethodOutputTest this should be the correct type and parameter. : " + searchType);
+        string? pResult = searchType;
+        string? taskSearch = pResult;
+
         Process.Start(new ProcessStartInfo
         {
-            FileName = url,
+            FileName = taskSearch,
             UseShellExecute = true
         });
-        Console.WriteLine("Browser opened Successfully.\nWould you like to search again? y/n");
-        string? end = Console.ReadLine();
-        if (end == "y")
+
+        // Variable choiceDataPull logic to call to method of pulling relative data. via HTMLAGILITYPACK to be completed
+
+        Console.WriteLine("would you like to pull relative data? y/n");
+        string? choiceDataPull = Console.ReadLine();
+        if (choiceDataPull == "y")
         {
-            Main();
+            Console.Clear();
         }
-        else if (end == "n")  
+        else if (choiceDataPull == "n")
         {
             Console.Clear();
             Console.Beep();
         }
 
     }
-
 }
